@@ -1,8 +1,8 @@
 import { describe, expect, test } from "@jest/globals";
-import { Cardan2R3D } from "../lib/helmert.js";
+import { cardan2R3D } from "../lib/utils.js";
 
 describe("A rotation matrix from Cardan Angles", () => {
-  const returnedMatrix = Cardan2R3D(1, 1, 1);
+  const returnedMatrix = cardan2R3D(1, 1, 1);
 
   test("is 3x3", () => {
     expect(returnedMatrix).toHaveLength(3);

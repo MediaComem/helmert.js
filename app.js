@@ -1,3 +1,5 @@
-import { Cardan2R3D } from "./lib/helmert.js";
+import { cardan2R3D, readXYZFile, parseXYZData } from "./lib/utils.js";
 
-console.log(Cardan2R3D(1,1,1));
+readXYZFile("./data/trajWGS84.xyz").then((d) =>
+  console.log(parseXYZData(d))
+);
