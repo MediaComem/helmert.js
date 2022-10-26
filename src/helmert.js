@@ -1,3 +1,4 @@
+import { subtract } from "mathjs";
 import {
   eye,
   readXYZFile,
@@ -7,8 +8,6 @@ import {
   mtrans,
   cardan2R3D
 } from "./utils.js";
-import { SVD } from "svd-js";
-import { subtract } from "mathjs";
 
 export class Helmert {
   constructor() {
@@ -55,7 +54,7 @@ export class Helmert {
     );
   }
   estimateHelmertMinimum() {
-    // Estimate Helmert 3D with singular values decomposition method
+    // Estimate Helmert 3D with SVD method
     this.points_common = {};
     for (let key in this.points_global) {
       if (this.points_local.hasOwnProperty(key)) {
@@ -158,7 +157,7 @@ export class Helmert {
 
     // Compute covariance matrix
     const S = mmul(mmul(local_matrix, W_SVD), mtrans(global_matrix));
-    return this;
+    
   }
 
   globalToLocal() {
