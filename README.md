@@ -16,12 +16,12 @@ pip install matplotlib
 ```
 
 ## Scripts
-`npm run dev`: Runs a demo of the JavaScript implementation using the files `traj.xyz` files in `data/`
+`npm run dev`: Runs a demo of the JavaScript implementation using the `traj.xyz` files in `data/`
 
 `npm run py`: Runs a demo of the Python implementation using those same files.
 
 ## Test Protocol
-The main of this project thus far is to try to replicate the results from the python program in the javascript implementation. To do so, we have implemented a test which does the following:
+The main goal of this project thus far is to try to replicate the results from the python program in the javascript implementation. To do so, we have implemented a test which does the following:
 * Pseudo-ramdomly generates local and global datapoints in Python and outputs them in .xyz files in `data/generated_data/testLocalData.xyz` and `data/generated_data/testLocalData.xyz`
 * The files are then fed to the Python algo and the resulting transformation is output to another file `data/generated_data/result.xyz`
 * A Jest test compares the output of the JavaScript algorithm to the results in that file.
