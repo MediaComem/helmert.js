@@ -11,9 +11,6 @@ import {
 
 export class Helmert {
   constructor() {
-    this.successful = false;
-    this.iter = "99 (99)";
-    this.JD_UTC = NaN;
     this.points_global = {};
     this.points_local = {};
     this.points_common = {};
@@ -25,25 +22,6 @@ export class Helmert {
       rY: [0.0, "unknown"],
       rZ: [0.0, "unknown"]
     };
-
-    this.helmert3DParamPrecision = {
-      s0: [NaN, "unknown"],
-      stX: [NaN, "unknown"],
-      stY: [NaN, "unknown"],
-      stZ: [NaN, "unknown"],
-      srX: [NaN, "unknown"],
-      srY: [NaN, "unknown"],
-      srZ: [NaN, "unknown"]
-    };
-
-    this.sigma_X = 0.001;
-    this.sigma_Y = 0.001;
-    this.sigma_Z = 0.001;
-    this.sigma_x = 0.001;
-    this.sigma_y = 0.001;
-    this.sigma_z = 0.001;
-
-    this.sigma = 0.001;
   }
   async importFiles(localPath, globalPath) {
     this.points_global = await readXYZFile(globalPath).then((d) =>
