@@ -346,7 +346,6 @@ class HelmertTransformation3D:
         S = local_matrix@W_SVD@global_matrix.T
         #Compute singular value decomposition
         U, s, VT = np.linalg.svd(S)
-        print(np.linalg.svd(S))
         V = VT.T
         
         #Determinant

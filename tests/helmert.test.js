@@ -1,5 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
-import { cardan2R3D } from "../lib/utils.js";
+import { cardan2R3D, readXYZFile, parseXYZData } from "../src/utils.js";
+import { Helmert } from "../src/helmert.js";
 
 describe("A rotation matrix from Cardan Angles", () => {
   const returnedMatrix = cardan2R3D(1, 1, 1);
@@ -21,5 +22,25 @@ describe("A rotation matrix from Cardan Angles", () => {
     flatMatrix.forEach((num, index) => {
       expect(num).toBeCloseTo(expectedValues[index], 8);
     });
+  });
+});
+
+describe("Helmert algorithm produces same results in JS and Python", () => {
+  const helm = new Helmert();
+  test("has expected values", async () => {
+    const expectedValues = Object.values(
+      await readXYZFile("./data/generated_data/result.xyz").then((d) =>
+        parseXYZData(d)
+      )
+    ).flat();
+    const actualValues = Object.values(await helm
+      .importFiles(
+        "./data/generated_data/testLocalData.xyz",
+        "./data/generated_data/testGlobalData.xyz"
+      )
+      .then(() => helm.estimateHelmertMinimum().globalToLocal())).flat();
+      actualValues.forEach((num, index) => {
+        expect(num).toBeCloseTo(expectedValues[index], 8)
+      })
   });
 });

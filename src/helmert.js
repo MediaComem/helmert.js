@@ -1,5 +1,14 @@
-import { eye, readXYZFile, parseXYZData, zeros, mmul, transpose } from "./utils.js";
+import {
+  eye,
+  readXYZFile,
+  parseXYZData,
+  zeros,
+  mmul,
+  mtrans,
+  cardan2R3D
+} from "./utils.js";
 import { SVD } from "svd-js";
+import { subtract } from "mathjs";
 
 export class Helmert {
   constructor() {
@@ -71,6 +80,7 @@ export class Helmert {
 
     // Compute Helmert adjustment with 3 best points
     this.computeHelmert(this.points_common, P);
+    return this;
   }
 
   computeHelmert(points, weights) {
@@ -147,7 +157,34 @@ export class Helmert {
     }
 
     // Compute covariance matrix
-    const S  = mmul(mmul(local_matrix, W_SVD), transpose(global_matrix));
-    console.log(SVD(S))
+    const S = mmul(mmul(local_matrix, W_SVD), mtrans(global_matrix));
+    return this;
+  }
+
+  globalToLocal() {
+    const new_local_points = {};
+    const tX = this.helmert3DParam.tX[0];
+    const tY = this.helmert3DParam.tY[0];
+    const tZ = this.helmert3DParam.tZ[0];
+    const rX = this.helmert3DParam.rX[0];
+    const rY = this.helmert3DParam.rY[0];
+    const rZ = this.helmert3DParam.rZ[0];
+
+    const R = cardan2R3D(rX, rY, rZ);
+    const t_ = [[tX], [tY], [tZ]];
+
+    for (let key in this.points_global) {
+      const X = this.points_global[key][0];
+      const Y = this.points_global[key][1];
+      const Z = this.points_global[key][2];
+
+      const X_ = [[X], [Y], [Z]];
+      const x_ = mmul(R, subtract(X_, t_));
+      const x = x_[0][0];
+      const y = x_[1][0];
+      const z = x_[2][0];
+      new_local_points[key] = [x, y, z];
+    }
+    return new_local_points;
   }
 }

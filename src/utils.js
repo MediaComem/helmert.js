@@ -93,5 +93,7 @@ export const mmul = (a, b) => {
   return product;
 };
 
-export const transpose = (matrix) =>
+export const mtrans = (matrix) =>
   matrix[0].map((_, colIndex) => matrix.map((row) => row[colIndex]));
+
+  

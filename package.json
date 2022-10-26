@@ -6,8 +6,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon ./*",
-    "test": " node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "py": "cd ../helmert_py && python processHelmertTransformation.py"
+    "test": "python py/helmertTest.py && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "py": "python py/processHelmertTransformation.py"
   },
   "author": "",
   "license": "ISC",
