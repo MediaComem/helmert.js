@@ -1,4 +1,4 @@
-import { eye, readXYZFile, parseXYZData, zeros, mmul } from "./utils.js";
+import { eye, readXYZFile, parseXYZData, zeros, mmul, transpose } from "./utils.js";
 import { SVD } from "svd-js";
 
 export class Helmert {
@@ -147,6 +147,7 @@ export class Helmert {
     }
 
     // Compute covariance matrix
-    
+    const S  = mmul(mmul(local_matrix, W_SVD), transpose(global_matrix));
+    console.log(SVD(S))
   }
 }
