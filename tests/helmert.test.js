@@ -25,7 +25,7 @@ describe("A rotation matrix from Cardan Angles", () => {
   });
 });
 
-describe("Helmert algorithm produces same results in JS and Python", () => {
+describe("Helmert and global to local algorithms produce same results in JS and Python", () => {
   const helm = new Helmert();
   test("has expected values", async () => {
     const expectedValues = Object.values(
