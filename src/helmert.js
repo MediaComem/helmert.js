@@ -1,4 +1,5 @@
-import { subtract } from "mathjs";
+import { det, gamma, subtract } from "mathjs";
+import { SVD } from "svd-js";
 import {
   eye,
   readXYZFile,
@@ -6,7 +7,9 @@ import {
   zeros,
   mmul,
   mtrans,
-  cardan2R3D
+  cardan2R3D,
+  mdet,
+  R3D2Cardan
 } from "./utils.js";
 
 export class Helmert {
@@ -135,7 +138,26 @@ export class Helmert {
 
     // Compute covariance matrix
     const S = mmul(mmul(local_matrix, W_SVD), mtrans(global_matrix));
-    
+    const { u, q, v } = SVD(S);
+    const det_vut = mdet(mmul(v, mtrans(u)));
+    const one_matrix = eye(v.length);
+    one_matrix[1][1] = det_vut;
+
+    // Compute Rotation
+    const R = mmul(v, mmul(one_matrix, mtrans(u)));
+    const [alpha_deg, beta_deg, gamma_deg] = R3D2Cardan(R);
+    this.helmert3DParam.rX[0] = alpha_deg;
+    this.helmert3DParam.rY[0] = beta_deg;
+    this.helmert3DParam.rZ[0] = gamma_deg;
+
+    // Compute translation
+    const t = subtract(global_centroid, mmul(R, local_centroid));
+    const t_x = t[0][0];
+    const t_y = t[1][0];
+    const t_z = t[2][0];
+    this.helmert3DParam.tX[0] = t_x;
+    this.helmert3DParam.tY[0] = t_y;
+    this.helmert3DParam.tZ[0] = t_z;
   }
 
   globalToLocal() {

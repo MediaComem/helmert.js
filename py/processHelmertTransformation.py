@@ -6,13 +6,13 @@ helm = helmertTransformation.HelmertTransformation3D('1')
 helm.importPointsGlobal('./data/trajWGS84.xyz')
 helm.importPointsLocal('./data/trajLocal.xyz')
 
-# helm.plot2DMap(typePoints= 'local')
-# helm.plot2DMap(typePoints= 'global')
+helm.plot2DMap(typePoints= 'local')
+helm.plot2DMap(typePoints= 'global')
 
-# # nb_iterations_ransac = 100
-# # helm.estimateHelmert3DSVD(nb_iterations_ransac)
-# # helm.printParameters()
-# # helm.printResiduals()
+# nb_iterations_ransac = 100
+# helm.estimateHelmert3DSVD(nb_iterations_ransac)
+# helm.printParameters()
+# helm.printResiduals()
 
 helm.estimateHelmert3DSVD_minimum()
 # helm.printParameters()

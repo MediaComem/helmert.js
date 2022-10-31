@@ -371,7 +371,6 @@ class HelmertTransformation3D:
         ################################################################
         
         t = global_centroid - R@local_centroid
-
         t_x = t[0][0]
         t_y = t[1][0]
         t_z = t[2][0]
@@ -379,8 +378,7 @@ class HelmertTransformation3D:
         self.helmert3DParam['tX'][0] = t_x
         self.helmert3DParam['tY'][0] = t_y
         self.helmert3DParam['tZ'][0] = t_z        
-         
-
+        
     def computeResiduals(self, dict_points, param_RANSAC):
         '''
         Compute residuals

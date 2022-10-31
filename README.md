@@ -2,7 +2,7 @@
 JavaScript implementation of the Helmert transformation algorithm developed in Python by Sebastien Guillaume and Samuel Schwyn from INSIT at HEIG-VD. The goal of this project is to eventually integrate it in Biodivar, Julien Mercier doctoral thesis project whithin the Media Engineering institute, also at HEIG-VD.
 
 ## Warning
-**As of right now, this project is neither functionnal nor architecturally sound, as we are still looking for a suitable SVD algorithm.** Right now, this stuff is built on Node, but the aim is to eventually have it running in the browser. 
+**As of right now, this project is not architecturally sound** Right now, this stuff is built on Node, but the aim is to eventually have it running in the browser. 
 
 ## Get it running
 To run all of the scripts, you will need:
@@ -26,7 +26,9 @@ The main goal of this project thus far is to try to replicate the results from t
 * The files are then fed to the Python algo and the resulting transformation is output to another file `data/generated_data/result.xyz`
 * A Jest test compares the output of the JavaScript algorithm to the results in that file.
 
-You can run the **as of now failing** test with the following command:
+**The test passes most of the time, but occasionally fails with radically different results then what is expected. I still need to figure out why...**
+
+You can run the test with the following command:
 ```bash
 npm test
 ```

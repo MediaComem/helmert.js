@@ -1,9 +1,9 @@
 import { promises as fs } from "fs";
 
-export const cardan2R3D = function (alpha_deg, beta_deg, gamma_deg) {
-  const a = degToRadians(alpha_deg);
-  const b = degToRadians(beta_deg);
-  const c = degToRadians(gamma_deg);
+export const cardan2R3D = (alpha_deg, beta_deg, gamma_deg) => {
+  const a = (alpha_deg * Math.PI) / 180;
+  const b = (beta_deg * Math.PI) / 180;
+  const c = (gamma_deg * Math.PI) / 180;
 
   const Rz = [
     [Math.cos(c), Math.sin(c), 0],
@@ -26,7 +26,29 @@ export const cardan2R3D = function (alpha_deg, beta_deg, gamma_deg) {
   return R;
 };
 
-const degToRadians = (deg) => (deg * Math.PI) / 180;
+export const R3D2Cardan = (R) => {
+  let a = 0;
+  let b = 0;
+  let c = 0;
+  if (R[2][0] === 1 || R[2][0] === -1) {
+    c = 0;
+    if (R[2][0] === -1) {
+      b = Math.PI / 2;
+      a = c + Math.atan2(R[0][1], R[0][2]);
+    } else {
+      b = -Math.PI / 2;
+      a = -c + Math.atan2(R[0][1], R[0][2]);
+    }
+  } else {
+    b = -Math.asin(R[2][0]);
+    a = Math.atan2(R[2][1] / Math.cos(b), R[2][2] / Math.cos(b));
+    c = Math.atan2(R[1][0] / Math.cos(b), R[0][0] / Math.cos(b));
+  }
+  const alpha_deg = (-a * 180) / Math.PI;
+  const beta_deg = (-b * 180) / Math.PI;
+  const gamma_deg = (-c * 180) / Math.PI;
+  return [alpha_deg, beta_deg, gamma_deg];
+};
 
 export const readXYZFile = async (path) => {
   const data = await fs
@@ -96,4 +118,16 @@ export const mmul = (a, b) => {
 export const mtrans = (matrix) =>
   matrix[0].map((_, colIndex) => matrix.map((row) => row[colIndex]));
 
-  
+export const mdet = (matrix) =>
+  matrix.length == 1
+    ? matrix[0][0]
+    : matrix.length == 2
+    ? matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+    : matrix[0].reduce(
+        (r, e, i) =>
+          r +
+          (-1) ** (i + 2) *
+            e *
+            mdet(matrix.slice(1).map((c) => c.filter((_, j) => i != j))),
+        0
+      );
