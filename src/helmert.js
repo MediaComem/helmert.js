@@ -141,7 +141,9 @@ export class Helmert {
     const { u, q, v } = SVD(S);
     const det_vut = mdet(mmul(v, mtrans(u)));
     const one_matrix = eye(v.length);
-    one_matrix[1][1] = det_vut;
+
+    const min_q_index = q.indexOf(Math.min(...q));
+    one_matrix[min_q_index][min_q_index] = det_vut;
 
     // Compute Rotation
     const R = mmul(v, mmul(one_matrix, mtrans(u)));
