@@ -25,9 +25,6 @@ The main goal of this project thus far is to try to replicate the results from t
 * Pseudo-ramdomly generates local and global datapoints in Python and outputs them in .xyz files in `data/generated_data/testLocalData.xyz` and `data/generated_data/testLocalData.xyz`
 * The files are then fed to the Python algo and the resulting transformation is output to another file `data/generated_data/result.xyz`
 * A Jest test compares the output of the JavaScript algorithm to the results in that file.
-
-**The test passes most of the time, but occasionally fails with radically different results then what is expected. I still need to figure out why...**
-
 You can run the test with the following command:
 ```bash
 npm test
